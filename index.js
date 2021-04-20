@@ -118,7 +118,7 @@ const run = () => {
 					return close();
 				case "View All Roles":
 					connection.query(
-						"SELECT role.id, title, salary, department.name FROM role INNER JOIN department ON role.id;",
+						"SELECT role.id, title, salary, name FROM role INNER JOIN department ON role.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
@@ -126,10 +126,13 @@ const run = () => {
 					);
 					return close();
 				case "View All Employees":
-					connection.query("SELECT * FROM employee;", (err, res) => {
-						if (err) throw err;
-						console.table(res);
-					});
+					connection.query(
+						"SELECT employee.id, first_name, last_name, title, salary, name FROM employee, department INNER JOIN role ON role.id;",
+						(err, res) => {
+							if (err) throw err;
+							console.table(res);
+						}
+					);
 					return close();
 				case "Update Employee Role":
 					return close();
