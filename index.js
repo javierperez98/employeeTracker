@@ -86,12 +86,27 @@ const run = () => {
 						.prompt([
 							{
 								type: "input",
-								message: "Enter Employee name:",
-								name: "emp",
+								message: "Enter Employee First Name:",
+								name: "nameFirst",
+							},
+							{
+								type: "input",
+								message: "Enter Employee Last Name:",
+								name: "nameLast",
 							},
 						])
 						.then((answer) => {
-							console.log(answer.emp);
+							connection.query(
+								"INSERT INTO employee SET ?",
+								{
+									first_name: `${answer.nameFirst}`,
+									last_name: `${answer.nameLast}`,
+								},
+								(err, res) => {
+									if (err) throw err;
+									console.log(res);
+								}
+							);
 						});
 					break;
 				case "View Departments":
