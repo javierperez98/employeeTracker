@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 	database: "company_db",
 });
 
-const run = () => {
+const run = () =>
 	inquirer
 		.prompt([
 			{
@@ -50,10 +50,11 @@ const run = () => {
 								(err, res) => {
 									if (err) throw err;
 									console.table(res);
+									return run();
 								}
 							);
 						});
-					return close();
+					break;
 				case "Add Role":
 					inquirer
 						.prompt([
@@ -78,10 +79,11 @@ const run = () => {
 								(err, res) => {
 									if (err) throw err;
 									console.table(res);
+									return run();
 								}
 							);
 						});
-					return close();
+					break;
 				case "Add Employee":
 					inquirer
 						.prompt([
@@ -106,41 +108,44 @@ const run = () => {
 								(err, res) => {
 									if (err) throw err;
 									console.table(res);
+									return run();
 								}
 							);
 						});
-					return close();
+					break;
 				case "View All Departments":
 					connection.query("SELECT * FROM department;", (err, res) => {
 						if (err) throw err;
 						console.table(res);
+						return run();
 					});
-					return close();
+					break;
 				case "View All Roles":
 					connection.query(
 						"SELECT role.id, title, salary, name FROM role INNER JOIN department ON role.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
+							return run();
 						}
 					);
-					return close();
+					break;
 				case "View All Employees":
 					connection.query(
 						"SELECT employee.id, first_name, last_name, title, salary, name FROM employee, department INNER JOIN role ON role.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
+							return run();
 						}
 					);
-					return close();
+					break;
 				case "Update Employee Role":
-					return close();
+					return run();
 				default:
 					console.log("Bye");
 					return close();
 			}
 		});
-};
 
 run();
