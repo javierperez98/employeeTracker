@@ -41,7 +41,16 @@ const run = () => {
 							},
 						])
 						.then((answer) => {
-							console.log(answer.dep);
+							connection.query(
+								"INSERT INTO department SET ?",
+								{
+									name: `${answer.dep}`,
+								},
+								(err, res) => {
+									if (err) throw err;
+									console.log(res);
+								}
+							);
 						});
 					break;
 				case "Add Roles":
