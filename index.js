@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const consoleTable = require("console.table");
+const close = () => connection.end();
+require("console.table");
 
 const connection = mysql.createConnection({
 	host: "localhost",
@@ -18,20 +19,20 @@ const run = () => {
 				message: "What would you like to do?",
 				name: "option",
 				choices: [
-					"Add Departments",
-					"Add Roles",
-					"Add Employees",
-					"View Departments",
-					"View Roles",
-					"View Employees",
-					"Update Employee Roles",
+					"Add Department",
+					"Add Role",
+					"Add Employee",
+					"View All Departments",
+					"View All Roles",
+					"View All Employees",
+					"Update Employee Role",
 					"Exit",
 				],
 			},
 		])
 		.then((answer) => {
 			switch (answer.option) {
-				case "Add Departments":
+				case "Add Department":
 					inquirer
 						.prompt([
 							{
@@ -48,12 +49,12 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									consoleTable(res);
+									console.table(res);
 								}
 							);
 						});
-					break;
-				case "Add Roles":
+					return close();
+				case "Add Role":
 					inquirer
 						.prompt([
 							{
@@ -76,12 +77,12 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									consoleTable(res);
+									console.table(res);
 								}
 							);
 						});
-					break;
-				case "Add Employees":
+					return close();
+				case "Add Employee":
 					inquirer
 						.prompt([
 							{
@@ -104,34 +105,37 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									consoleTable(res);
+									console.table(res);
 								}
 							);
 						});
-					break;
+					return close();
 				case "View All Departments":
 					connection.query("SELECT * FROM department;", (err, res) => {
 						if (err) throw err;
-						consoleTable(res);
+						console.table(res);
 					});
-					break;
+					return close();
 				case "View All Roles":
-					connection.query("SELECT * FROM role;", (err, res) => {
-						if (err) throw err;
-						consoleTable(res);
-					});
-					break;
+					connection.query(
+						"SELECT role.id, title, salary, department.name FROM role INNER JOIN department ON role.id;",
+						(err, res) => {
+							if (err) throw err;
+							console.table(res);
+						}
+					);
+					return close();
 				case "View All Employees":
 					connection.query("SELECT * FROM employee;", (err, res) => {
 						if (err) throw err;
-						consoleTable(res);
+						console.table(res);
 					});
-					break;
-				case "Update Employee Roles":
-					break;
+					return close();
+				case "Update Employee Role":
+					return close();
 				default:
 					console.log("Bye");
-					return;
+					return close();
 			}
 		});
 };
