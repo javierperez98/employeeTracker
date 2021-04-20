@@ -29,28 +29,54 @@ const run = () => {
 				],
 			},
 		])
-		.then((result) => {
-			switch (result.option) {
+		.then((answer) => {
+			switch (answer.option) {
 				case "Add Departments":
-					console.log("Add Departments");
+					inquirer
+						.prompt([
+							{
+								type: "input",
+								message: "Enter Department name:",
+								name: "dep",
+							},
+						])
+						.then((answer) => {
+							console.log(answer.dep);
+						});
 					break;
 				case "Add Roles":
-					console.log("Add Roles");
+					inquirer
+						.prompt([
+							{
+								type: "input",
+								message: "Enter Role name:",
+								name: "role",
+							},
+						])
+						.then((answer) => {
+							console.log(answer.role);
+						});
 					break;
 				case "Add Employees":
-					console.log("Add Employees");
+					inquirer
+						.prompt([
+							{
+								type: "input",
+								message: "Enter Employee name:",
+								name: "emp",
+							},
+						])
+						.then((answer) => {
+							console.log(answer.emp);
+						});
 					break;
 				case "View Departments":
-					console.log("View Departments");
 					break;
 				case "View Roles":
-					console.log("View Roles");
 					break;
 				case "View Employees":
-					console.log("View Employees");
 					break;
 				case "Update Employee Roles":
-					console.log("Update Employee Roles");
 					break;
 				default:
 					console.log("Bye");
