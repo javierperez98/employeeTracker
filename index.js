@@ -48,7 +48,7 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									return;
+									consoleTable(res);
 								}
 							);
 						});
@@ -76,7 +76,7 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									console.log(res);
+									consoleTable(res);
 								}
 							);
 						});
@@ -104,16 +104,28 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									console.log(res);
+									consoleTable(res);
 								}
 							);
 						});
 					break;
-				case "View Departments":
+				case "View All Departments":
+					connection.query("SELECT * FROM department;", (err, res) => {
+						if (err) throw err;
+						consoleTable(res);
+					});
 					break;
-				case "View Roles":
+				case "View All Roles":
+					connection.query("SELECT * FROM role;", (err, res) => {
+						if (err) throw err;
+						consoleTable(res);
+					});
 					break;
-				case "View Employees":
+				case "View All Employees":
+					connection.query("SELECT * FROM employee;", (err, res) => {
+						if (err) throw err;
+						consoleTable(res);
+					});
 					break;
 				case "Update Employee Roles":
 					break;
