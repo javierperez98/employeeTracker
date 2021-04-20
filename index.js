@@ -48,7 +48,7 @@ const run = () => {
 								},
 								(err, res) => {
 									if (err) throw err;
-									console.log(res);
+									return;
 								}
 							);
 						});
@@ -58,12 +58,27 @@ const run = () => {
 						.prompt([
 							{
 								type: "input",
-								message: "Enter Role name:",
-								name: "role",
+								message: "Enter Role title:",
+								name: "title",
+							},
+							{
+								type: "input",
+								message: "Enter Role Salary:",
+								name: "salary",
 							},
 						])
 						.then((answer) => {
-							console.log(answer.role);
+							connection.query(
+								"INSERT INTO role SET ?",
+								{
+									title: `${answer.title}`,
+									salary: `${answer.salary}`,
+								},
+								(err, res) => {
+									if (err) throw err;
+									console.log(res);
+								}
+							);
 						});
 					break;
 				case "Add Employees":
