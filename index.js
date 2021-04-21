@@ -1,7 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const close = () => connection.end();
-const DepChoices = require("/options");
 require("console.table");
 
 const connection = mysql.createConnection({
@@ -46,7 +45,7 @@ const run = () =>
 							connection.query(
 								"INSERT INTO department SET ?",
 								{
-									name: `${answer.dep}`,
+									name: answer.dep,
 								},
 								(err, res) => {
 									if (err) throw err;
@@ -57,39 +56,47 @@ const run = () =>
 						});
 					break;
 				case "Add Role":
-					inquirer
-						.prompt([
-							{
-								type: "input",
-								message: "Enter Role title:",
-								name: "title",
-							},
-							{
-								type: "input",
-								message: "Enter Role Salary:",
-								name: "salary",
-							},
-							{
-								type: "list",
-								message: "Select Department:",
-								name: "dep",
-								choices: "Placeholder",
-							},
-						])
-						.then((answer) => {
-							connection.query(
-								"INSERT INTO role SET ?",
-								{
-									title: `${answer.title}`,
-									salary: `${answer.salary}`,
-								},
-								(err, res) => {
-									if (err) throw err;
-									console.table(res);
-									return run();
-								}
-							);
-						});
+					connection.query(
+						"SELECT name, id as value from department;",
+						(err, depList) => {
+							if (err) throw err;
+							inquirer
+								.prompt([
+									{
+										type: "input",
+										message: "Enter Role title:",
+										name: "title",
+									},
+									{
+										type: "input",
+										message: "Enter Role Salary:",
+										name: "salary",
+									},
+									{
+										type: "list",
+										message: "Select Department:",
+										name: "dep",
+										choices: depList,
+									},
+								])
+								.then((answer) => {
+									console.log(answer);
+									connection.query(
+										"INSERT INTO role SET ?",
+										{
+											title: answer.title,
+											salary: answer.salary,
+											department_id: answer.id,
+										},
+										(err, res) => {
+											if (err) throw err;
+											console.table(res);
+											return run();
+										}
+									);
+								});
+						}
+					);
 					break;
 				case "Add Employee":
 					inquirer
@@ -109,8 +116,8 @@ const run = () =>
 							connection.query(
 								"INSERT INTO employee SET ?",
 								{
-									first_name: `${answer.nameFirst}`,
-									last_name: `${answer.nameLast}`,
+									first_name: answer.nameFirst,
+									last_name: answer.nameLast,
 								},
 								(err, res) => {
 									if (err) throw err;
