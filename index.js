@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const close = () => connection.end();
+const DepChoices = require("/options");
 require("console.table");
 
 const connection = mysql.createConnection({
@@ -67,6 +68,12 @@ const run = () =>
 								type: "input",
 								message: "Enter Role Salary:",
 								name: "salary",
+							},
+							{
+								type: "list",
+								message: "Select Department:",
+								name: "dep",
+								choices: "Placeholder",
 							},
 						])
 						.then((answer) => {
