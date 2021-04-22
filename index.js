@@ -85,7 +85,7 @@ const run = () =>
 										{
 											title: answer.title,
 											salary: answer.salary,
-											department_id: answer.id,
+											department_id: answer.dep,
 										},
 										(err, res) => {
 											if (err) throw err;
@@ -107,18 +107,12 @@ const run = () =>
 									{
 										type: "input",
 										message: "Enter Employee First Name:",
-										name: "nameFirst",
+										name: "First",
 									},
 									{
 										type: "input",
 										message: "Enter Employee Last Name:",
-										name: "nameLast",
-									},
-									{
-										type: "list",
-										message: "Enter Employee Role:",
-										name: "role",
-										choices: roleList,
+										name: "Last",
 									},
 									{
 										type: "list",
@@ -131,8 +125,8 @@ const run = () =>
 									connection.query(
 										"INSERT INTO employee SET ?",
 										{
-											first_name: answer.nameFirst,
-											last_name: answer.nameLast,
+											first_name: answer.First,
+											last_name: answer.Last,
 											role_id: answer.role,
 										},
 										(err, res) => {
@@ -157,7 +151,7 @@ const run = () =>
 					break;
 				case "View All Roles":
 					connection.query(
-						"SELECT title as Postion, salary as Salary, name as Department FROM role INNER JOIN department ON role.id;",
+						"SELECT role.title AS Position, role.salary AS Salary, name AS Department FROM role LEFT JOIN department ON department_id = department.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
@@ -180,35 +174,37 @@ const run = () =>
 						"SELECT CONCAT(first_name,' ',last_name) AS name, id AS value FROM employee;",
 						(err, empList) => {
 							if (err) throw err;
-							inquirer
-								.prompt([
-									{
-										type: "list",
-										message: "Pick an Employee:",
-										name: "employee",
-										choices: empList,
-									},
-									{
-										type: "list",
-										message: "Pick a Role",
-										name: "role",
-										choices: roleList,
-									},
-								])
-								.then((answer) => {
-									connection.query(
-										"UPDATE employee SET role_id = ? WHERE id = ?;",
-										{
-											role_id: answer.role,
-											id: answer.employee,
-										},
-										(err, res) => {
-											if (err) throw err;
-											console.table(res);
-											return run();
-										}
-									);
-								});
+							connection.query(
+								"SELECT title as name, id as value from role;",
+								(err, roleList) => {
+									if (err) throw err;
+									inquirer
+										.prompt([
+											{
+												type: "list",
+												message: "Pick an Employee:",
+												name: "employee",
+												choices: empList,
+											},
+											{
+												type: "list",
+												message: "Pick a Role",
+												name: "role",
+												choices: roleList,
+											},
+										])
+										.then((answer) => {
+											connection.query(
+												"UPDATE employee SET ? WHERE ? ;",
+												[{ role_id: answer.role }, { id: answer.employee }],
+												(err, res) => {
+													if (err) throw err;
+													return run();
+												}
+											);
+										});
+								}
+							);
 						}
 					);
 					break;
