@@ -1,4 +1,4 @@
-# ReadMe Maker
+# Company Tracker
 
 ![MIT](https://img.shields.io/github/license/microsoft/vscode)
 
