@@ -167,7 +167,7 @@ const run = () =>
 					break;
 				case "View All Employees":
 					connection.query(
-						"SELECT CONCAT(first_name,' ', last_name) as Name, title as Postion, salary as Salary, name as Department FROM employee, department INNER JOIN role ON role.id;",
+						"SELECT CONCAT(employee.first_name,' ', employee.last_name) AS Employee, role.title AS Position, department.name AS Department, role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employee LEFT JOIN employee manager on manager.id = employee.manager_id INNER JOIN role ON (role.id = employee.role_id) INNER JOIN department ON (department.id = role.department_id);",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
