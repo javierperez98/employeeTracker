@@ -102,42 +102,46 @@ const run = () =>
 						"SELECT title as name, id as value from role;",
 						(err, roleList) => {
 							if (err) throw err;
-							inquirer.prompt([]).then((answer) => {
-								inquirer
-									.prompt([
+							inquirer
+								.prompt([
+									{
+										type: "input",
+										message: "Enter Employee First Name:",
+										name: "nameFirst",
+									},
+									{
+										type: "input",
+										message: "Enter Employee Last Name:",
+										name: "nameLast",
+									},
+									{
+										type: "list",
+										message: "Enter Employee Role:",
+										name: "role",
+										choices: roleList,
+									},
+									{
+										type: "list",
+										message: "Enter Employee Role:",
+										name: "role",
+										choices: roleList,
+									},
+								])
+								.then((answer) => {
+									connection.query(
+										"INSERT INTO employee SET ?",
 										{
-											type: "input",
-											message: "Enter Employee First Name:",
-											name: "nameFirst",
+											first_name: answer.nameFirst,
+											last_name: answer.nameLast,
+											role_id: answer.role,
 										},
-										{
-											type: "input",
-											message: "Enter Employee Last Name:",
-											name: "nameLast",
-										},
-										{
-											type: "list",
-											message: "Enter Employee Role:",
-											name: "role",
-											choices: roleList,
-										},
-									])
-									.then((answer) => {
-										connection.query(
-											"INSERT INTO employee SET ?",
-											{
-												first_name: answer.nameFirst,
-												last_name: answer.nameLast,
-												role_id: answer.role,
-											},
-											(err, res) => {
-												if (err) throw err;
-												console.table(res);
-												return run();
-											}
-										);
-									});
-							});
+										(err, res) => {
+											if (err) throw err;
+											console.table(res);
+											return run();
+										}
+									);
+								});
 						}
 					);
 					break;
