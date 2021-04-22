@@ -1,141 +1,105 @@
-# Unit 12 MySQL Homework: Employee Tracker
+# ReadMe Maker
 
-Developers are often tasked with creating interfaces that make it easy for non-developers to view and interact with information stored in databases. Often these interfaces are known as **C**ontent **M**anagement **S**ystems. In this homework assignment, your challenge is to architect and build a solution for managing a company's employees using node, inquirer, and MySQL.
+![MIT](https://img.shields.io/github/license/microsoft/vscode)
 
-**IMPORTANT:** You must create a video demonstration of your completed application in order to receive a grade.
+## Description
 
-## Instructions
+<!-- Provide a short description explaining the what, why, and how of your project.
+What was your motivation? Why did you build this project? What problem does it solve? What did you learn? -->
 
-Design the following database schema containing three tables:
+- This project is a Company Tracker that lets you create, add, and update departments, jobs and employees using Node.js and MySQL.
+- It provides you an easy and effect way to track your company. This project has really help and bettered my understanding of MySQL and Node.js.
 
-![Database Schema](Assets/schema.png)
+## Table of Contents
 
-- **department**:
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
+- [Questions](#questions)
 
-  - **id** - INT PRIMARY KEY
-  - **name** - VARCHAR(30) to hold department name
+## Installation
 
-- **role**:
+<!-- What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running. -->
 
-  - **id** - INT PRIMARY KEY
-  - **title** - VARCHAR(30) to hold role title
-  - **salary** - DECIMAL to hold role salary
-  - **department_id** - INT to hold reference to department role belongs to
+- To install copy and paste either the SSH or HTTPS key and run it in either Bash (PC Users) or Terminal (MAC Users) using the git clone command.
 
-- **employee**:
-
-  - **id** - INT PRIMARY KEY
-  - **first_name** - VARCHAR(30) to hold employee first name
-  - **last_name** - VARCHAR(30) to hold employee last name
-  - **role_id** - INT to hold reference to role employee has
-  - **manager_id** - INT to hold reference to another employee that manages the employee being Created. This field may be null if the employee has no manager
-
-Build a command-line application that at a minimum allows the user to:
-
-- Add departments, roles, employees
-
-- View departments, roles, employees
-
-- Update employee roles
-
-Bonus points if you're able to:
-
-- Update employee managers
-
-- View employees by manager
-
-- Delete departments, roles, and employees
-
-- View the total utilized budget of a department -- ie the combined salaries of all employees in that department
-
-We can frame this challenge as follows:
-
-```
-As a business owner
-I want to be able to view and manage the departments, roles, and employees in my company
-So that I can organize and plan my business
+```md
+SSH key: git clone git@github.com:javierperez98/employeeTracker.git
+HTTPS key : git clone https://github.com/javierperez98/employeeTracker.git
 ```
 
-How do you deliver this? Here are some guidelines:
+- Next you'll have to install all the required node modules by opening the index.js file using terminal/bash and typing in the following command.
 
-- Use the [MySQL](https://www.npmjs.com/package/mysql) NPM package to connect to your MySQL database and perform queries.
+```md
+npm i
+or
+npm install
+```
 
-- Use [InquirerJs](https://www.npmjs.com/package/inquirer/v/0.2.3) NPM package to interact with the user via the command-line.
+## Usage
 
-- Use [console.table](https://www.npmjs.com/package/console.table) to print MySQL rows to the console. There is a built-in version of `console.table`, but the NPM package formats the data a little better for our purposes.
+<!-- Provide instructions and examples for use. Include screenshots as needed. -->
 
-- You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
+### When you launch the application open index.js in the terminal and run the command your prompted with options
 
-- You will need to perform a variety of SQL JOINS to complete this assignment, and it's recommended you review the week's activities if you need a refresher on this.
+```md
+node index.js
+```
 
-![Employee Tracker](Assets/employee-tracker.gif)
+![Start App](images/app.png)
 
-### Hints
+#### You can select display all Departments, Roles or Employees by chosing any of the options listed.
 
-- You may wish to include a `seed.sql` file to pre-populate your database. This will make development of individual features much easier.
+![Display All](images/table.png)
 
-- Focus on getting the basic functionality completed before working on more advanced features.
+#### You have the option to add more Departments, Roles and or Employees by clicking the option and answering the prompts.
 
-- Review the week's activities for a refresher on MySQL.
+![Add](images/Add.png)
 
-- Check out [SQL Bolt](https://sqlbolt.com/) for some extra MySQL help.
+## Credits
 
-## Minimum Requirements
+<!-- List your collaborators, if any, with links to their GitHub profiles. Links to websites or resources. -->
 
-- Functional application.
+- https://www.google.com
+- https://nodejs.org
+- https://developer.mozilla.org/en-US/
+- https://w3schools.com
+- https://expressjs.com
+- https://stackoverflow.com/
+- https://www.mysql.com/
+- [Christian Payan](https://github.com/ChrisPayan)
 
-- GitHub repository with a unique name and a README describing the project.
+## License
 
-- The command-line application should allow users to:
+<!-- If you need help choosing a license, refer to https://choosealicense.com/ -->
 
-  - Add departments, roles, employees
+MIT License
 
-  - View departments, roles, employees
+Copyright (c) 2021 [Javier Perez]
 
-  - Update employee roles
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-## Bonus
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-- The command-line application should allow users to:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-  - Update employee managers
+## Questions
 
-  - View employees by manager
+Contact me for any questions you might have.
 
-  - Delete departments, roles, and employees
-
-  - View the total utilized budget of a department -- ie the combined salaries of all employees in that department
-
-## Commit Early and Often
-
-One of the most important skills to master as a web developer is version control. Building the habit of committing via Git is important for two reasons:
-
-- Your commit history is a signal to employers that you are actively working on projects and learning new skills.
-
-- Your commit history allows you to revert your codebase in the event that you need to return to a previous state.
-
-Follow these guidelines for committing:
-
-- Make single-purpose commits for related changes to ensure a clean, manageable history. If you are fixing two issues, make two commits.
-
-- Write descriptive, meaningful commit messages so that you and anyone else looking at your repository can easily understand its history.
-
-- Don't commit half-done work, for the sake of your collaborators (and your future self!).
-
-- Test your application before you commit to ensure functionality at every step in the development process.
-
-We would like you to have well over 200 commits by graduation, so commit early and often!
-
-**Important**: You will be committing a file that contains your database credentials. Make sure your MySQL password is not used for any other personal accounts, because it will be visible on GitHub. In upcoming lessons, you will learn how to better secure this password, or you can start researching npm packages now that could help you.
-
-## Submission on BCS
-
-You are required to submit the following:
-
-- The URL of the GitHub repository
-
-- A video demonstrating the entirety of the app's functionality
-
----
-
-© 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+- GitHub: [javierperez98](https://github.com/javierperez98)
+- Email: javier21perez98@gmail.com
+- LinkedIn: [javierperez98](https://www.linkedin.com/in/javier-perez98/)

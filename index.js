@@ -127,7 +127,10 @@ const run = () =>
 												type: "list",
 												message: "Enter Employee's Manager:",
 												name: "manager",
-												choices: managerList,
+												choices: managerList.concat({
+													name: "None",
+													value: null,
+												}),
 											},
 										])
 										.then((answer) => {
