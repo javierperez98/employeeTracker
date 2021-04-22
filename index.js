@@ -101,39 +101,52 @@ const run = () =>
 						"SELECT title as name, id as value from role;",
 						(err, roleList) => {
 							if (err) throw err;
-							inquirer
-								.prompt([
-									{
-										type: "input",
-										message: "Enter Employee First Name:",
-										name: "First",
-									},
-									{
-										type: "input",
-										message: "Enter Employee Last Name:",
-										name: "Last",
-									},
-									{
-										type: "list",
-										message: "Enter Employee Role:",
-										name: "role",
-										choices: roleList,
-									},
-								])
-								.then((answer) => {
-									connection.query(
-										"INSERT INTO employee SET ?",
-										{
-											first_name: answer.First,
-											last_name: answer.Last,
-											role_id: answer.role,
-										},
-										(err, res) => {
-											if (err) throw err;
-											return run();
-										}
-									);
-								});
+							connection.query(
+								"SELECT CONCAT(employee.first_name,' ', employee.last_name) AS name, id AS value FROM employee;",
+								(err, managerList) => {
+									if (err) throw err;
+									inquirer
+										.prompt([
+											{
+												type: "input",
+												message: "Enter Employee First Name:",
+												name: "First",
+											},
+											{
+												type: "input",
+												message: "Enter Employee Last Name:",
+												name: "Last",
+											},
+											{
+												type: "list",
+												message: "Enter Employee Role:",
+												name: "role",
+												choices: roleList,
+											},
+											{
+												type: "list",
+												message: "Enter Employee's Manager:",
+												name: "manager",
+												choices: managerList,
+											},
+										])
+										.then((answer) => {
+											connection.query(
+												"INSERT INTO employee SET ?",
+												{
+													first_name: answer.First,
+													last_name: answer.Last,
+													role_id: answer.role,
+													manager_id: answer.manager,
+												},
+												(err, res) => {
+													if (err) throw err;
+													return run();
+												}
+											);
+										});
+								}
+							);
 						}
 					);
 					break;
@@ -149,7 +162,7 @@ const run = () =>
 					break;
 				case "View All Roles":
 					connection.query(
-						"SELECT role.title AS Position, role.salary AS Salary, name AS Department FROM role LEFT JOIN department ON department_id = department.id;",
+						"SELECT role.title AS Position, role.salary AS Salary, name AS Department FROM role LEFT JOIN department ON department_id = department.id ORDER BY department;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
@@ -159,7 +172,7 @@ const run = () =>
 					break;
 				case "View All Employees":
 					connection.query(
-						"SELECT CONCAT(employee.first_name,' ', employee.last_name) AS Employee, role.title AS Position, department.name AS Department, role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employee LEFT JOIN employee manager on manager.id = employee.manager_id INNER JOIN role ON (role.id = employee.role_id) INNER JOIN department ON (department.id = role.department_id);",
+						"SELECT CONCAT(employee.first_name,' ', employee.last_name) AS Employee, role.title AS Position, department.name AS Department, role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employee LEFT JOIN employee manager on manager.id = employee.manager_id INNER JOIN role ON (role.id = employee.role_id) INNER JOIN department ON (department.id = role.department_id) ORDER BY department;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
