@@ -142,15 +142,18 @@ const run = () =>
 					);
 					break;
 				case "View All Departments":
-					connection.query("SELECT * FROM department;", (err, res) => {
-						if (err) throw err;
-						console.table(res);
-						return run();
-					});
+					connection.query(
+						"SELECT name as Department FROM department;",
+						(err, res) => {
+							if (err) throw err;
+							console.table(res);
+							return run();
+						}
+					);
 					break;
 				case "View All Roles":
 					connection.query(
-						"SELECT role.id, title, salary, name FROM role INNER JOIN department ON role.id;",
+						"SELECT title as Postion, salary as Salary, name as Department FROM role INNER JOIN department ON role.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
@@ -160,7 +163,7 @@ const run = () =>
 					break;
 				case "View All Employees":
 					connection.query(
-						"SELECT employee.id, first_name, last_name, title, salary, name FROM employee, department INNER JOIN role ON role.id;",
+						"SELECT CONCAT(first_name,' ', last_name) as Name, title as Postion, salary as Salary, name as Department FROM employee, department INNER JOIN role ON role.id;",
 						(err, res) => {
 							if (err) throw err;
 							console.table(res);
