@@ -80,7 +80,6 @@ const run = () =>
 									},
 								])
 								.then((answer) => {
-									console.log(answer);
 									connection.query(
 										"INSERT INTO role SET ?",
 										{
@@ -99,33 +98,48 @@ const run = () =>
 					);
 					break;
 				case "Add Employee":
-					inquirer
-						.prompt([
-							{
-								type: "input",
-								message: "Enter Employee First Name:",
-								name: "nameFirst",
-							},
-							{
-								type: "input",
-								message: "Enter Employee Last Name:",
-								name: "nameLast",
-							},
-						])
-						.then((answer) => {
-							connection.query(
-								"INSERT INTO employee SET ?",
-								{
-									first_name: answer.nameFirst,
-									last_name: answer.nameLast,
-								},
-								(err, res) => {
-									if (err) throw err;
-									console.table(res);
-									return run();
-								}
-							);
-						});
+					connection.query(
+						"SELECT title as name, id as value from role;",
+						(err, roleList) => {
+							if (err) throw err;
+							inquirer.prompt([]).then((answer) => {
+								inquirer
+									.prompt([
+										{
+											type: "input",
+											message: "Enter Employee First Name:",
+											name: "nameFirst",
+										},
+										{
+											type: "input",
+											message: "Enter Employee Last Name:",
+											name: "nameLast",
+										},
+										{
+											type: "list",
+											message: "Enter Employee Role:",
+											name: "role",
+											choices: roleList,
+										},
+									])
+									.then((answer) => {
+										connection.query(
+											"INSERT INTO employee SET ?",
+											{
+												first_name: answer.nameFirst,
+												last_name: answer.nameLast,
+												role_id: answer.role,
+											},
+											(err, res) => {
+												if (err) throw err;
+												console.table(res);
+												return run();
+											}
+										);
+									});
+							});
+						}
+					);
 					break;
 				case "View All Departments":
 					connection.query("SELECT * FROM department;", (err, res) => {
