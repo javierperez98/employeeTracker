@@ -26,10 +26,10 @@ CREATE TABLE employee (
 );
 
 INSERT INTO department (name)
-VALUES ("Sales");
+VALUES ("Marketing");
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Cashier", 30000, 1);
+VALUES ("Consultant", 45000, 2);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Tim", "Timmy", 1, 1);
@@ -51,8 +51,9 @@ WHERE id = ?;
 SELECT CONCAT(first_name,' ',last_name) AS name, id AS value
 FROM employee;
 
-SELECT role.id, title, salary, name FROM role INNER JOIN department ON role.id;
+SELECT role.title AS Position, role.salary AS Salary, name AS Department FROM role LEFT JOIN department ON department_id = department.id;
 
+SELECT * FROM department;
 SELECT name, id as value from department;
 SELECT title as name, id as value from role;
 SELECT * FROM role;

@@ -49,7 +49,6 @@ const run = () =>
 								},
 								(err, res) => {
 									if (err) throw err;
-									console.table(res);
 									return run();
 								}
 							);
@@ -89,7 +88,7 @@ const run = () =>
 										},
 										(err, res) => {
 											if (err) throw err;
-											console.table(res);
+
 											return run();
 										}
 									);
@@ -131,7 +130,6 @@ const run = () =>
 										},
 										(err, res) => {
 											if (err) throw err;
-											console.table(res);
 											return run();
 										}
 									);
