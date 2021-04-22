@@ -1,4 +1,4 @@
-# Company Tracker
+# Employee Tracker
 
 ![MIT](https://img.shields.io/github/license/microsoft/vscode)
 
@@ -100,6 +100,7 @@ SOFTWARE.
 
 Contact me for any questions you might have.
 
+- Video Demo of App: [Click Here](https://drive.google.com/file/d/1DzhQ3pGxYhi9ByfHS3Dy95q_KOEc0Spc/view?usp=sharing)
 - GitHub: [javierperez98](https://github.com/javierperez98)
 - Email: javier21perez98@gmail.com
 - LinkedIn: [javierperez98](https://www.linkedin.com/in/javier-perez98/)
