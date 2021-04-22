@@ -176,7 +176,42 @@ const run = () =>
 					);
 					break;
 				case "Update Employee Role":
-					return run();
+					connection.query(
+						"SELECT CONCAT(first_name,' ',last_name) AS name, id AS value FROM employee;",
+						(err, empList) => {
+							if (err) throw err;
+							inquirer
+								.prompt([
+									{
+										type: "list",
+										message: "Pick an Employee:",
+										name: "employee",
+										choices: empList,
+									},
+									{
+										type: "list",
+										message: "Pick a Role",
+										name: "role",
+										choices: roleList,
+									},
+								])
+								.then((answer) => {
+									connection.query(
+										"UPDATE employee SET role_id = ? WHERE id = ?;",
+										{
+											role_id: answer.role,
+											id: answer.employee,
+										},
+										(err, res) => {
+											if (err) throw err;
+											console.table(res);
+											return run();
+										}
+									);
+								});
+						}
+					);
+					break;
 				default:
 					console.log("Bye");
 					return close();
